@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
@@ -15,6 +16,7 @@ namespace GCodeNpp
     {
         public GCodeNppPlugin()
         { }
+        private static IScintillaGateway editor;
 
 
         public const string PLUGIN_NAME = "GCodeNpp";
@@ -26,7 +28,81 @@ namespace GCodeNpp
 
         public void CommandMenuInit()
         {
+            editor = new ScintillaGateway(PluginBase.GetCurrentScintilla());
+            
             PluginBase.SetCommand(0, "Lathe Tools", myLatheCalcDialog); idLatheToolsDlg = 0;
+            PluginBase.SetCommand(1,"Humanize", HumanizeGCodeText, new ShortcutKey(true, true, true, Keys.S));
+        }
+
+        internal static void HumanizeGCodeText()
+        {
+            var e = editor;
+            int lineCount = e.GetLineCount();
+            char[] interupts = ("BCDGMFHIJKMNPQUVWXYZRST").ToCharArray();
+            char[] comments = new char[] { '(', ')' };
+            int pos = 0;
+            string[] docLines = new string[lineCount];
+            for(int i = 0; i < lineCount; i++)
+            {
+                docLines[i] = e.GetLine(i);
+            }
+            for (int i = 0; i < lineCount; i++)
+            {
+                char[] lineChars = docLines[i].ToCharArray();
+                string thisLine = String.Empty;
+                bool comment = false;
+                
+                for (int j = 0; j < lineChars.Length; j++)
+                {
+                    char c = lineChars[j];
+                    if (c == '(') comment = true;
+                    if (c == ')') comment = false;
+                    if (interupts.Contains(c))
+                    {
+                        if (comment)
+                        {
+                            thisLine += c;
+                            continue;
+                        }
+
+                        if (j == 0)
+                        {
+                            thisLine += c;
+                            continue;
+                        }
+
+                        if (lineChars[j - 1] == ' ')
+                        {
+                            thisLine += c;
+                            continue;
+                        }
+
+                        thisLine += $" {c}";
+                    }
+                    else
+                    {
+                        thisLine += c;
+                    }
+
+                    // if (j == lineChars.Length - 1)
+                    // {
+                    //     thisLine += "\n";
+                    // }
+
+                    if (lineChars.Length == 0)
+                    {
+                        thisLine += "\n";
+                    }
+                }
+
+                docLines[i] = thisLine;
+            }
+            string finalText = String.Empty;
+            foreach (string s in docLines)
+            {
+                finalText += s;
+            }
+            e.SetText(finalText);
         }
 
         internal static void myLatheCalcDialog()

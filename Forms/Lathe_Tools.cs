@@ -26,6 +26,7 @@ namespace GCodeNpp.Forms
             double.TryParse(currentControl.Text + e.KeyChar, out double keyPressed);
             double.TryParse(sfmDiameterControl.Text, out double diametervalue);
             resultControl.Text = ((keyPressed * diametervalue * 3.14) / 12).ToString();
+            return;
         }
 
         private void SFM_D_KeyPress(object sender, KeyPressEventArgs e)
@@ -36,6 +37,7 @@ namespace GCodeNpp.Forms
             double.TryParse(currentControl.Text + e.KeyChar, out double keyPressed);
             double.TryParse(sfmRPMControl.Text, out double rpmvalue);
             resultControl.Text = ((rpmvalue * keyPressed * 3.14) / 12).ToString();
+            return;
         }
 
         private void RPM_SFM_KeyPress(object sender, KeyPressEventArgs e)
@@ -56,6 +58,7 @@ namespace GCodeNpp.Forms
             double.TryParse(currentControl.Text + e.KeyChar, out double keyPressed);
             double.TryParse(sfmRPMControl.Text, out double rpmvalue);
             resultControl.Text = (rpmvalue * (12/3.14) / keyPressed).ToString();
+            return;
         }
         
         private void IPR_IPM_KeyPress(object sender, KeyPressEventArgs e)
@@ -66,6 +69,7 @@ namespace GCodeNpp.Forms
             double.TryParse(ipmControl.Text + e.KeyChar, out double ipmValue);
             double.TryParse(rpmControl.Text, out double rpmValue);
             resultControl.Text = (ipmValue/rpmValue).ToString();
+            return;
         }
 
         private void IPR_RPM_KeyPress(object sender, KeyPressEventArgs e)
@@ -76,6 +80,7 @@ namespace GCodeNpp.Forms
             double.TryParse(rpmControl.Text + e.KeyChar, out double rpmValue);
             double.TryParse(ipmControl.Text, out double ipmValue);
             resultControl.Text = (ipmValue/rpmValue).ToString();
+            return;
         }
 
         private void IPM_IPR_KeyPress(object sender, KeyPressEventArgs e)
@@ -86,6 +91,7 @@ namespace GCodeNpp.Forms
             double.TryParse(iprControl.Text + e.KeyChar, out double iprValue);
             double.TryParse(rpmControl.Text, out double rpmValue);
             resultControl.Text = (iprValue * rpmValue).ToString();
+            return;
         }
 
         private void IPM_RPM_KeyPress(object sender, KeyPressEventArgs e)
@@ -96,6 +102,7 @@ namespace GCodeNpp.Forms
             double.TryParse(rpmControl.Text + e.KeyChar, out double rpmValue);
             double.TryParse(iprControl.Text, out double iprValue);
             resultControl.Text = (iprValue * rpmValue).ToString();
+            return;
         }
 
         private void MRR_SFM_KeyPress(object sender, KeyPressEventArgs e)
@@ -108,6 +115,7 @@ namespace GCodeNpp.Forms
             double.TryParse(iprControl.Text, out double iprValue);
             double.TryParse(docControl.Text, out double docValue);
             resultControl.Text = (sfmValue * 12 * iprValue * docValue).ToString();
+            return;
         }
 
         private void MRR_IPR_KeyPress(object sender, KeyPressEventArgs e)
@@ -120,6 +128,7 @@ namespace GCodeNpp.Forms
             double.TryParse(iprControl.Text + e.KeyChar, out double iprValue);
             double.TryParse(docControl.Text, out double docValue);
             resultControl.Text = (sfmValue * 12 * iprValue * docValue).ToString();
+            return;
         }
 
         private void MRR_DOC_KeyPress(object sender, KeyPressEventArgs e)
@@ -132,6 +141,7 @@ namespace GCodeNpp.Forms
             double.TryParse(iprControl.Text, out double iprValue);
             double.TryParse(docControl.Text + e.KeyChar, out double docValue);
             resultControl.Text = (sfmValue * 12 * iprValue * docValue).ToString();
+            return;
         }
     }
 }
